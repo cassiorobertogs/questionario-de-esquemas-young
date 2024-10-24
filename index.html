@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Avaliação Psicológica</title>
+    <link rel="stylesheet" href="styles.css">
+
+    <!-- Incluindo jsPDF UMD -->
+    <script src="jspdf.umd.min.js"></script>
+    <!-- Incluindo jsPDF-AutoTable UMD -->
+    <script src="jspdf.plugin.autotable.min.js"></script>
+    <!-- Incluindo Chart.js UMD -->
+    <script src="chart.umd.js"></script>
+    <!-- Seu script -->
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <main>
+        <h1>Questionário de Avaliação Psicológica</h1>
+        <section id="introducao">
+            <h2>Introdução</h2>
+            <p>
+                <strong>Questionário de Esquemas de Young — YSQ – S3</strong><br>
+                Jeffrey Young, Ph.D.<br>
+                (Tradução e adaptação para uso no Brasil por Carlos Eduardo Seixas e Silvio Vasconcellos, conforme os direitos de utilização para pesquisa adquiridos junto ao Schema Therapy Institute)
+            </p>
+            <p>
+                Abaixo estão listadas as afirmações que as pessoas podem utilizar para se descrever. Por favor, leia cada afirmação e, em seguida, classifique-a com base em como você se encaixa durante este último ano. Quando você não tiver certeza, baseie sua resposta sobre o que você sente emocionalmente, e não sobre o que você pensa ser verdadeiro.
+            </p>
+            <p>
+                Alguns dos itens se referem à sua relação com seus pais ou parceiros românticos. Se alguma(s) destas pessoas faleceu, por favor, responda esses itens com base nas suas relações de quando estavam vivos. Se atualmente não tem um(a) parceiro(a) romântico(a), mas teve relacionamentos amorosos no passado, por favor, responda o item com base em seu relacionamento amoroso significativo mais recente.
+            </p>
+            <p>
+                <strong>ESCALA DE CLASSIFICAÇÃO:</strong><br>
+                1 = Completamente falso sobre mim<br>
+                2 = Mais falso do que verdadeiro sobre mim<br>
+                3 = Um pouco mais verdadeiro do que falso sobre mim<br>
+                4 = Moderadamente verdadeiro sobre mim<br>
+                5 = Em grande parte verdadeiro sobre mim<br>
+                6 = Me descreve perfeitamente
+            </p>
+            <p>
+                Por favor, escolha a melhor pontuação de 1 a 6 na escala de classificação acima que descreva você para cada afirmação.
+            </p>
+        </section>
+        
+        <form id="questionario">
+            <fieldset>
+                <legend>Informações Pessoais</legend>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+                <br><br>
+                <label for="idade">Idade:</label>
+                <input type="number" id="idade" name="idade" min="0" required>
+                <br><br>
+                <label for="data">Data:</label>
+                <input type="date" id="data" name="data" required>
+            </fieldset>
+            <br>
+            <fieldset>
+                <legend>Questionário</legend>
+                <p>Escolha a melhor pontuação de 1 a 6 que descreve você para a afirmação abaixo:</p>
+                <p><em>1 = Completamente falso, 6 = Me descreve perfeitamente</em></p>
+                <br>
+                <label for="q1">1. Eu não tenho ninguém que cuide de mim, que compartilhe comigo a vida ou que se preocupe realmente com tudo o que acontece comigo.</label>
+                <input type="number" id="q1" name="q1" min="1" max="6" required>
+                <br><br>
+                <label for="q2">2. Costumo me apegar muito às pessoas que são mais próximas de mim porque tenho medo que elas me abandonem.</label>
+                <input type="number" id="q2" name="q2" min="1" max="6" required>
+                <br><br>
+                <label for="q3">3. Sinto que as pessoas irão aproveitar-se de mim.</label>
+                <input type="number" id="q3" name="q3" min="1" max="6" required>
+                <br><br>
+                <label for="q4">4. Sou um(a) desajustado(a).</label>
+                <input type="number" id="q4" name="q4" min="1" max="6" required>
+                <br><br>
+                <label for="q5">5. Nenhum homem/mulher de quem eu goste pode gostar de mim depois de conhecer os meus defeitos ou fraquezas.</label>
+                <input type="number" id="q5" name="q5" min="1" max="6" required>
+                <br><br>
+                <label for="q6">6. Quase nada do que faço no trabalho (ou na escola) é tão bom como aquilo que os outros são capazes de fazer.</label>
+                <input type="number" id="q6" name="q6" min="1" max="6" required>
+                <br><br>
+                <label for="q7">7. Não me sinto capaz de me arranjar sozinho(a) no dia-a-dia.</label>
+                <input type="number" id="q7" name="q7" min="1" max="6" required>
+                <br><br>
+                <label for="q8">8. Não consigo deixar de sentir que alguma coisa de ruim está para acontecer.</label>
+                <input type="number" id="q8" name="q8" min="1" max="6" required>
+                <br><br>
+                <label for="q9">9. Não tenho sido capaz de me separar dos meus pais, assim como fazem as outras pessoas da minha idade.</label>
+                <input type="number" id="q9" name="q9" min="1" max="6" required>
+                <br><br>
+                <label for="q10">10. Sinto que, se fizer o que quero, só vou acabar tendo problemas.</label>
+                <input type="number" id="q10" name="q10" min="1" max="6" required>
+                <br><br>
+                <label for="q11">11. Sou sempre eu que acabo cuidando das pessoas que são mais próximas a mim.</label>
+                <input type="number" id="q11" name="q11" min="1" max="6" required>
+                <br><br>
+                <label for="q12">12. Sou muito controlado(a) para revelar os meus sentimentos positivos aos outros (por ex., afeto, mostrar que me preocupo).</label>
+                <input type="number" id="q12" name="q12" min="1" max="6" required>
+                <br><br>
+                <label for="q13">13. Tenho que ser o(a) melhor em quase tudo o que faço; não aceito ficar em segundo lugar.</label>
+                <input type="number" id="q13" name="q13" min="1" max="6" required>
+                <br><br>
+                <label for="q14">14. Tenho muita dificuldade em aceitar um "não" como resposta quando quero alguma coisa dos outros.</label>
+                <input type="number" id="q14" name="q14" min="1" max="6" required>
+                <br><br>
+                <label for="q15">15. Não consigo me disciplinar o suficiente para cumprir tarefas rotineiras ou chatas.</label>
+                <input type="number" id="q15" name="q15" min="1" max="6" required>
+                <br><br>
+                <label for="q16">16. Ter dinheiro e conhecer pessoas importantes faz eu me sentir uma pessoa com valor.</label>
+                <input type="number" id="q16" name="q16" min="1" max="6" required>
+                <br><br>
+                <label for="q17">17. Mesmo quando as coisas parecem estar correndo bem, sinto que isso é apenas temporário.</label>
+                <input type="number" id="q17" name="q17" min="1" max="6" required>
+                <br><br>
+                <label for="q18">18. Se cometer um erro, mereço ser punido.</label>
+                <input type="number" id="q18" name="q18" min="1" max="6" required>
+                <br><br>
+                <label for="q19">19. Não tenho pessoas que me dêem carinho, apoio e afeto.</label>
+                <input type="number" id="q19" name="q19" min="1" max="6" required>
+                <br><br>
+                <label for="q20">20. Preciso tanto dos outros que me preocupo com o fato de poder perdê-los.</label>
+                <input type="number" id="q20" name="q20" min="1" max="6" required>
+                <br><br>
+                <label for="q21">21. Sinto que tenho sempre que me defender na presença dos outros, senão eles irão machucar-me intencionalmente.</label>
+                <input type="number" id="q21" name="q21" min="1" max="6" required>
+                <br><br>
+                <label for="q22">22. Sou fundamentalmente diferente das outras pessoas.</label>
+                <input type="number" id="q22" name="q22" min="1" max="6" required>
+                <br><br>
+                <label for="q23">23. Ninguém que eu deseje gostaria de ficar comigo depois de conhecer-me como sou realmente.</label>
+                <input type="number" id="q23" name="q23" min="1" max="6" required>
+                <br><br>
+                <label for="q24">24. Sou incompetente quando se trata de atingir objetivos.</label>
+                <input type="number" id="q24" name="q24" min="1" max="6" required>
+                <br><br>
+                <label for="q25">25. Sinto-me uma pessoa dependente, no que se refere ao que tenho que fazer no dia-a-dia.</label>
+                <input type="number" id="q25" name="q25" min="1" max="6" required>
+                <br><br>
+                <label for="q26">26. Sinto que uma desgraça (natural, criminal, financeira ou médica) pode atingir-me a qualquer momento.</label>
+                <input type="number" id="q26" name="q26" min="1" max="6" required>
+                <br><br>
+                <label for="q27">27. Eu e os meus pais temos tendência a nos envolvermos excessivamente na vida e nos problemas uns dos outros.</label>
+                <input type="number" id="q27" name="q27" min="1" max="6" required>
+                <br><br>
+                <label for="q28">28. Sinto que não tenho escolha além de ceder à vontade dos outros, caso contrário, eles irão retaliar-me, ficar zangados ou rejeitar-me de alguma maneira.</label>
+                <input type="number" id="q28" name="q28" min="1" max="6" required>
+                <br><br>
+                <label for="q29">29. Sou uma boa pessoa porque penso mais nos outros do que em mim.</label>
+                <input type="number" id="q29" name="q29" min="1" max="6" required>
+                <br><br>
+                <label for="q30">30. Considero embaraçoso expressar os meus sentimentos aos outros.</label>
+                <input type="number" id="q30" name="q30" min="1" max="6" required>
+                <br><br>
+                <label for="q31">31. Esforço-me para fazer o melhor; não posso me contentar em ser 'bom o suficiente'.</label>
+                <input type="number" id="q31" name="q31" min="1" max="6" required>
+                <br><br>
+                <label for="q32">32. Sou especial e não devia ser obrigado(a) a aceitar muitas das restrições ou limitações que são impostas aos outros.</label>
+                <input type="number" id="q32" name="q32" min="1" max="6" required>
+                <br><br>
+                <label for="q33">33. Se não consigo atingir um objetivo, fico facilmente frustrado(a) e desisto.</label>
+                <input type="number" id="q33" name="q33" min="1" max="6" required>
+                <br><br>
+                <label for="q34">34. Aquilo que consigo alcançar tem mais valor para mim, se for algo que os outros reparem.</label>
+                <input type="number" id="q34" name="q34" min="1" max="6" required>
+                <br><br>
+                <label for="q35">35. Se algo de bom acontecer, preocupo-me com o fato de que algo ruim venha acontecer a seguir.</label>
+                <input type="number" id="q35" name="q35" min="1" max="6" required>
+                <br><br>
+                <label for="q36">36. Se não me esforçar ao máximo, é de se esperar que as coisas corram mal.</label>
+                <input type="number" id="q36" name="q36" min="1" max="6" required>
+                <br><br>
+                <label for="q37">37. Tenho sentido que não sou uma pessoa especial para ninguém.</label>
+                <input type="number" id="q37" name="q37" min="1" max="6" required>
+                <br><br>
+                <label for="q38">38. Preocupo-me que as pessoas a quem estou ligado(a) me deixem ou me abandonem.</label>
+                <input type="number" id="q38" name="q38" min="1" max="6" required>
+                <br><br>
+                <label for="q39">39. Mais cedo ou mais tarde, acabarei sendo traído(a) por alguém.</label>
+                <input type="number" id="q39" name="q39" min="1" max="6" required>
+                <br><br>
+                <label for="q40">40. Sinto que não pertenço a nenhum grupo; sou um solitário.</label>
+                <input type="number" id="q40" name="q40" min="1" max="6" required>
+                <br><br>
+                <label for="q41">41. Não tenho valor suficiente para merecer o amor, a atenção e o respeito dos outros.</label>
+                <input type="number" id="q41" name="q41" min="1" max="6" required>
+                <br><br>
+                <label for="q42">42. A maioria das pessoas tem mais capacidades do que eu no que diz respeito a trabalho e objetivos.</label>
+                <input type="number" id="q42" name="q42" min="1" max="6" required>
+                <br><br>
+                <label for="q43">43. Tenho falta de bom senso.</label>
+                <input type="number" id="q43" name="q43" min="1" max="6" required>
+                <br><br>
+                <label for="q44">44. Preocupa-me poder ser fisicamente agredido por alguém.</label>
+                <input type="number" id="q44" name="q44" min="1" max="6" required>
+                <br><br>
+                <label for="q45">45. É muito difícil para mim e para os meus pais, termos segredos íntimos que não contamos uns aos outros, sem nos sentirmos traídos ou culpados por isso.</label>
+                <input type="number" id="q45" name="q45" min="1" max="6" required>
+                <br><br>
+                <label for="q46">46. Nas minhas relações com os outros, geralmente deixo que eles me dominem.</label>
+                <input type="number" id="q46" name="q46" min="1" max="6" required>
+                <br><br>
+                <label for="q47">47. Estou tão ocupado(a) em fazer coisas para as pessoas de quem gosto que tenho pouco tempo para mim.</label>
+                <input type="number" id="q47" name="q47" min="1" max="6" required>
+                <br><br>
+                <label for="q48">48. Para mim é difícil ser afetuoso e espontâneo(a) com os outros.</label>
+                <input type="number" id="q48" name="q48" min="1" max="6" required>
+                <br><br>
+                <label for="q49">49. Tenho que atender à altura todas as minhas responsabilidades e funções.</label>
+                <input type="number" id="q49" name="q49" min="1" max="6" required>
+                <br><br>
+                <label for="q50">50. Detesto ser reprimido(a) ou impedido(a) de fazer o que quero.</label>
+                <input type="number" id="q50" name="q50" min="1" max="6" required>
+                <br><br>
+                <label for="q51">51. Tenho muita dificuldade em abrir mão de uma recompensa ou prazer imediato, para alcançar um objetivo a longo prazo.</label>
+                <input type="number" id="q51" name="q51" min="1" max="6" required>
+                <br><br>
+                <label for="q52">52. Sinto-me pouco importante, a não ser que receba muita atenção dos outros.</label>
+                <input type="number" id="q52" name="q52" min="1" max="6" required>
+                <br><br>
+                <label for="q53">53. Todo o cuidado é pouco; quase sempre algo vai dar errado.</label>
+                <input type="number" id="q53" name="q53" min="1" max="6" required>
+                <br><br>
+                <label for="q54">54. Se não fizer bem o que me compete, mereço sofrer as consequências.</label>
+                <input type="number" id="q54" name="q54" min="1" max="6" required>
+                <br><br>
+                <label for="q55">55. Não tenho tido ninguém que me ouça atentamente, que me compreenda ou que perceba os meus verdadeiros sentimentos e necessidades.</label>
+                <input type="number" id="q55" name="q55" min="1" max="6" required>
+                <br><br>
+                <label for="q56">56. Quando sinto que alguém de quem eu gosto está afastando-se de mim, fico desesperado.</label>
+                <input type="number" id="q56" name="q56" min="1" max="6" required>
+                <br><br>
+                <label for="q57">57. Sou bastante desconfiado quanto às intenções das outras pessoas.</label>
+                <input type="number" id="q57" name="q57" min="1" max="6" required>
+                <br><br>
+                <label for="q58">58. Sinto-me afastado(a) ou desligado dos outros.</label>
+                <input type="number" id="q58" name="q58" min="1" max="6" required>
+                <br><br>
+                <label for="q59">59. Sinto que nunca poderei ser amado por alguém.</label>
+                <input type="number" id="q59" name="q59" min="1" max="6" required>
+                <br><br>
+                <label for="q60">60. Não sou tão talentoso(a) no trabalho como a maioria das pessoas.</label>
+                <input type="number" id="q60" name="q60" min="1" max="6" required>
+                <br><br>
+                <label for="q61">61. Meu julgamento não é confiável para situações do dia-a-dia.</label>
+                <input type="number" id="q61" name="q61" min="1" max="6" required>
+                <br><br>
+                <label for="q62">62. Preocupa-me poder perder todo o dinheiro que tenho e ficar muito pobre ou na miséria.</label>
+                <input type="number" id="q62" name="q62" min="1" max="6" required>
+                <br><br>
+                <label for="q63">63. Com frequência sinto que é como se os meus pais vivessem através de mim; não tenho uma vida própria.</label>
+                <input type="number" id="q63" name="q63" min="1" max="6" required>
+                <br><br>
+                <label for="q64">64. Sempre deixei que os outros escolhessem por mim, por isso, não sei realmente aquilo que quero para mim.</label>
+                <input type="number" id="q64" name="q64" min="1" max="6" required>
+                <br><br>
+                <label for="q65">65. Tenho sido sempre eu quem ouve os problemas dos outros.</label>
+                <input type="number" id="q65" name="q65" min="1" max="6" required>
+                <br><br>
+                <label for="q66">66. Controlo-me tanto que as pessoas pensam que não tenho sentimentos ou que sou insensível.</label>
+                <input type="number" id="q66" name="q66" min="1" max="6" required>
+                <br><br>
+                <label for="q67">67. Sinto sobre mim uma pressão constante para fazer coisas e atingir objetivos.</label>
+                <input type="number" id="q67" name="q67" min="1" max="6" required>
+                <br><br>
+                <label for="q68">68. Sinto que não devia ter que seguir as regras e convenções habituais que as outras pessoas têm que seguir.</label>
+                <input type="number" id="q68" name="q68" min="1" max="6" required>
+                <br><br>
+                <label for="q69">69. Não consigo obrigar-me a fazer coisas que não gosto, mesmo quando sei que é para o meu bem.</label>
+                <input type="number" id="q69" name="q69" min="1" max="6" required>
+                <br><br>
+                <label for="q70">70. Quando faço uma intervenção numa reunião ou quando sou apresentado a alguém num grupo, é importante para mim, obter reconhecimento e admiração.</label>
+                <input type="number" id="q70" name="q70" min="1" max="6" required>
+                <br><br>
+                <label for="q71">71. Por mais que trabalhe, preocupa-me poder ficar na miséria e perder quase tudo o que possuo.</label>
+                <input type="number" id="q71" name="q71" min="1" max="6" required>
+                <br><br>
+                <label for="q72">72. Não interessa porque é que cometi um erro; quando faço algo errado, tenho que sofrer as consequências.</label>
+                <input type="number" id="q72" name="q72" min="1" max="6" required>
+                <br><br>
+                <label for="q73">73. Não tenho tido uma pessoa forte ou sábia para me dar conselhos ou me dizer o que fazer quando não tenho a certeza de qual atitude tomar.</label>
+                <input type="number" id="q73" name="q73" min="1" max="6" required>
+                <br><br>
+                <label for="q74">74. Às vezes, a preocupação que tenho com o fato de as pessoas poderem me deixar é tão grande, que acabo por afastá-las.</label>
+                <input type="number" id="q74" name="q74" min="1" max="6" required>
+                <br><br>
+                <label for="q75">75. Estou geralmente à procura de segundas intenções ou de motivos ocultos por detrás do comportamento dos outros.</label>
+                <input type="number" id="q75" name="q75" min="1" max="6" required>
+                <br><br>
+                <label for="q76">76. Em grupos, sinto-me sempre fora deles.</label>
+                <input type="number" id="q76" name="q76" min="1" max="6" required>
+                <br><br>
+                <label for="q77">77. Sou completamente inaceitável para poder mostrar-me tal como sou às outras pessoas ou para deixar que me conheçam bem.</label>
+                <input type="number" id="q77" name="q77" min="1" max="6" required>
+                <br><br>
+                <label for="q78">78. No que diz respeito ao trabalho (ou à escola) não sou tão inteligente como a maior parte das pessoas.</label>
+                <input type="number" id="q78" name="q78" min="1" max="6" required>
+                <br><br>
+                <label for="q79">79. Não tenho confiança nas minhas capacidades para resolver problemas que surjam no dia-a-dia.</label>
+                <input type="number" id="q79" name="q79" min="1" max="6" required>
+                <br><br>
+                <label for="q80">80. Preocupo-me em poder desenvolver uma doença séria, ainda que não tenha sido diagnosticado nada de grave por um médico.</label>
+                <input type="number" id="q80" name="q80" min="1" max="6" required>
+                <br><br>
+                <label for="q81">81. Com frequência, sinto que não tenho uma identidade separada da dos meus pais ou companheiro(a).</label>
+                <input type="number" id="q81" name="q81" min="1" max="6" required>
+                <br><br>
+                <label for="q82">82. Tenho bastante dificuldade para conseguir que os meus sentimentos sejam levados em consideração e os meus direitos sejam respeitados.</label>
+                <input type="number" id="q82" name="q82" min="1" max="6" required>
+                <br><br>
+                <label for="q83">83. As outras pessoas consideram que faço muito pelos outros e não faço o suficiente por mim.</label>
+                <input type="number" id="q83" name="q83" min="1" max="6" required>
+                <br><br>
+                <label for="q84">84. As pessoas acham que tenho dificuldade em expressar o que sinto.</label>
+                <input type="number" id="q84" name="q84" min="1" max="6" required>
+                <br><br>
+                <label for="q85">85. Não posso descuidar, de forma leviana, das minhas obrigações e nem dar desculpas pelos meus erros.</label>
+                <input type="number" id="q85" name="q85" min="1" max="6" required>
+                <br><br>
+                <label for="q86">86. Sinto que o que tenho para oferecer tem mais valor do que aquilo que os outros têm para dar.</label>
+                <input type="number" id="q86" name="q86" min="1" max="6" required>
+                <br><br>
+                <label for="q87">87. Raramente tenho sido capaz de levar as minhas decisões até ao fim.</label>
+                <input type="number" id="q87" name="q87" min="1" max="6" required>
+                <br><br>
+                <label for="q88">88. Receber muitos elogios dos outros faz com que eu me sinta uma pessoa que têm valor.</label>
+                <input type="number" id="q88" name="q88" min="1" max="6" required>
+                <br><br>
+                <label for="q89">89. Preocupa-me que uma decisão errada possa provocar uma catástrofe.</label>
+                <input type="number" id="q89" name="q89" min="1" max="6" required>
+                <br><br>
+                <label for="q90">90. Sou uma pessoa má que merece ser punida.</label>
+                <input type="number" id="q90" name="q90" min="1" max="6" required>
+                <br><br>
+
+                <!-- Adicione aqui as demais questões até a 90 quando estiver pronto -->
+            </fieldset>
+            <br>
+            <button type="button" onclick="gerarRelatorio()">Gerar Relatório</button>
+        </form>
+
+        <section id="relatorio" hidden>
+            <div id="resultado"></div>
+            <button onclick="exportarPDF()">Exportar para PDF</button>
+        </section>
+        
+    </main>
+</body>
+</html>
