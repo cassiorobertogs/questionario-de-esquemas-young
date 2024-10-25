@@ -25,49 +25,48 @@ document.addEventListener("DOMContentLoaded", function () {
         'Punição': []
     };
 
-    function validarEntrada(input) {
-        const valor = parseInt(input.value, 10);
-        if (isNaN(valor) || valor < 1 || valor > 6) {
-            input.setAttribute('aria-invalid', 'true');
-            if (input.nextElementSibling) {
-                input.nextElementSibling.textContent = "Valor inválido. Digite um número entre 1 e 6.";
-            }
-            const pergunta = input.dataset.pergunta ? ` para a questão ${input.dataset.pergunta}` : "";
-            emitirAlertaAcessivel(`Valor inválido${pergunta}. Digite um número entre 1 e 6.`);
-            input.focus();
-            return false;
-        } else {
-            input.setAttribute('aria-invalid', 'false');
-            if (input.nextElementSibling) {
-                input.nextElementSibling.textContent = "";
-            }
-            return true;
-        }
-    }
+    function gerarOpcoes() {
+        const allOptionsDivs = document.querySelectorAll('.options');
+        allOptionsDivs.forEach(optionsDiv => {
+            const fieldset = optionsDiv.closest('fieldset');
+            const legenda = fieldset.querySelector('legend');
+            const legendId = `${fieldset.id}-legend`;
+            legenda.id = legendId;
 
-    function verificarPreenchimento(input) {
-        if (input.value.trim() === "") {
-            input.setAttribute('aria-invalid', 'true');
-            if (input.nextElementSibling) {
-                input.nextElementSibling.textContent = "Campo obrigatório.";
+            const questionName = optionsDiv.dataset.question;
+
+            for (let i = 1; i <= 6; i++) {
+                const input = document.createElement('input');
+                input.type = 'radio';
+                input.id = `${questionName}_${i}`;
+                input.name = questionName;
+                input.value = i;
+
+                const label = document.createElement('label');
+                label.htmlFor = input.id;
+                label.textContent = i;
+
+                optionsDiv.appendChild(input);
+                optionsDiv.appendChild(label);
             }
-            const pergunta = input.dataset.pergunta ? ` para a questão ${input.dataset.pergunta}` : "";
-            emitirAlertaAcessivel(`Campo obrigatório${pergunta}.`);
-            input.focus();
-            return false;
-        } else {
-            input.setAttribute('aria-invalid', 'false');
-            if (input.nextElementSibling) {
-                input.nextElementSibling.textContent = "";
-            }
-            return true;
-        }
+        });
     }
 
     function validarFormulario() {
-        const inputs = document.querySelectorAll('input[type="number"]:not(#idade)');
-        for (const input of inputs) {
-            if (!verificarPreenchimento(input) || !validarEntrada(input)) {
+        const perguntas = document.querySelectorAll('fieldset[id^="q"]');
+        for (const fieldset of perguntas) {
+            const nomeQuestao = fieldset.id;
+            const inputs = fieldset.querySelectorAll(`input[name="${nomeQuestao}"]`);
+            let algumSelecionado = false;
+            inputs.forEach(input => {
+                if (input.checked) {
+                    algumSelecionado = true;
+                }
+            });
+            if (!algumSelecionado) {
+                const perguntaTexto = fieldset.querySelector('legend').textContent;
+                emitirAlertaAcessivel(`Por favor, selecione uma resposta para a questão: ${perguntaTexto}`);
+                fieldset.scrollIntoView();
                 return false;
             }
         }
@@ -82,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function emitirAlertaAcessivel(mensagem) {
-        alert(mensagem); // O alerta será reproduzido pelo leitor de tela
+        alert(mensagem);
     }
 
     function gerarRelatorio() {
@@ -93,15 +92,15 @@ document.addEventListener("DOMContentLoaded", function () {
         const resultadoDiv = document.getElementById("resultado");
         const relatorioSecao = document.getElementById("relatorio");
         respostas = [];
-        // Resetar esquemas
         for (const key in esquemas) {
             esquemas[key] = [];
         }
 
-        const perguntas = document.querySelectorAll('input[type="number"]:not(#idade)');
-        perguntas.forEach((input, index) => {
-            const perguntaTexto = input.previousElementSibling.textContent;
-            const valor = parseInt(input.value);
+        const perguntas = document.querySelectorAll('fieldset[id^="q"]');
+        perguntas.forEach((fieldset, index) => {
+            const perguntaTexto = fieldset.querySelector('legend').textContent;
+            const inputSelecionado = fieldset.querySelector('input[type="radio"]:checked');
+            const valor = parseInt(inputSelecionado ? inputSelecionado.value : 0);
             respostas.push({ pergunta: perguntaTexto, valor: valor });
             atribuirRespostasAosEsquemas(index + 1, valor);
         });
@@ -151,7 +150,6 @@ document.addEventListener("DOMContentLoaded", function () {
         resultadoDiv.appendChild(perguntasRespostasSection);
         relatorioSecao.hidden = false;
     }
-
     function atribuirRespostasAosEsquemas(indice, valor) {
         if ([1, 2, 20, 38, 56, 74].includes(indice)) {
             esquemas['Abandono'].push(valor);
@@ -221,7 +219,6 @@ document.addEventListener("DOMContentLoaded", function () {
             format: "a4"
         });
 
-        // Cabeçalho do relatório
         doc.setFontSize(16);
         doc.setFont("helvetica", "bold");
         doc.text(`Relatório de Avaliação de Esquemas`, 105, 20, { align: "center" });
@@ -232,7 +229,6 @@ document.addEventListener("DOMContentLoaded", function () {
         doc.text(`Data de Nascimento: ${dataNascimento}`, 15, 50);
         doc.text(`Data do Preenchimento: ${dataPreenchimento}`, 15, 60);
 
-        // Interpretação dos Resultados
         let yPosition = 70;
         doc.setFontSize(14);
         doc.setFont("helvetica", "bold");
@@ -256,7 +252,6 @@ document.addEventListener("DOMContentLoaded", function () {
             yPosition += 10;
         }
 
-        // Tabela de Perguntas e Respostas
         yPosition += 10;
         doc.setFontSize(14);
         doc.setFont("helvetica", "bold");
@@ -289,7 +284,6 @@ document.addEventListener("DOMContentLoaded", function () {
             tableWidth: 'wrap',
         });
 
-        // Adicionando Gráfico
         const canvas = document.createElement('canvas');
         canvas.width = 400;
         canvas.height = 200;
@@ -321,7 +315,6 @@ document.addEventListener("DOMContentLoaded", function () {
             },
         });
 
-        // Espera o gráfico ser renderizado
         setTimeout(() => {
             const imgData = canvas.toDataURL('image/png');
             const imgProps = doc.getImageProperties(imgData);
@@ -342,5 +335,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.gerarRelatorio = gerarRelatorio;
     window.exportarPDF = exportarPDF;
 
+    gerarOpcoes();
     adicionarFocoInicial();
 });
